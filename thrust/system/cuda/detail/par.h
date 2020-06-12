@@ -96,7 +96,13 @@ private:
   }
 };
 
-struct execute_on_stream : execute_on_stream_base<execute_on_stream>
+struct execute_on_stream : execute_on_stream_base<execute_on_stream>,
+  thrust::detail::allocator_aware_execution_policy<
+    execute_on_stream_base>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<
+    execute_on_stream_base>
+#endif
 {
   typedef execute_on_stream_base<execute_on_stream> base_t;
 
